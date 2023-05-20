@@ -1,8 +1,8 @@
 FROM golang:1.16-buster AS builder
 
-WORKDIR /app
-COPY go.* ./
-RUN go mod download
-COPY *.go ./
-RUN go build -o /main
-ENTRYPOINT ["/main"]
+WORKDIR /go/src/app
+COPY . .
+RUN CGO_ENABLED=0 go build -o /app main.go
+FROM scratch
+COPY --from=builder /app /app
+ENTRYPOINT  ["/app"]
