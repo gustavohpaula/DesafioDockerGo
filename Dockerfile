@@ -1,8 +1,8 @@
 FROM golang:1.16-buster AS builder
 
-WORKDIR /go/src/app
+WORKDIR /go/src/main
 COPY . .
-RUN CGO_ENABLED=0 go build -o /app main.go
+RUN CGO_ENABLED=0 go build -o /main main.go
 FROM scratch
-COPY --from=builder /app /app
-ENTRYPOINT  ["/app"]
+COPY --from=builder /main /main
+ENTRYPOINT  ["/main"]
